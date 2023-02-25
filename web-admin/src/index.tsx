@@ -1,19 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import { ConfigProvider } from "antd";
+import zhCN from "antd/locale/zh_CN";
+import dayjs from "dayjs";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import router from "./router/index";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import "dayjs/locale/zh-cn";
+
+dayjs.locale("zh-cn");
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
+const App = (
+  <ConfigProvider
+    locale={zhCN}
+    theme={{
+      token: {
+        colorPrimary: "#1890ff"
+      }
+    }}
+  >
+    <RouterProvider router={router} />
+  </ConfigProvider>
+);
+root.render(App);
