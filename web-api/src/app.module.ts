@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TasksModule } from './demands/demands.module';
+import { DemandsModule } from './demands/demands.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
-  imports: [TasksModule],
+  imports: [DemandsModule, DocumentsModule],
   controllers: [],
   providers: [],
 })

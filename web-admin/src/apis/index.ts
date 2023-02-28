@@ -1,5 +1,5 @@
 import fetch from "./fetch";
-import { CreateDemandParams } from "./types/index";
+import { CreateDemandParams, QueryDemandListParams } from "./types/index";
 
 const apis = {
   // 创建需求
@@ -11,9 +11,10 @@ const apis = {
     });
   },
 
-  queryDemandList: function (): Promise<any> {
+  queryDemandList: function (data: QueryDemandListParams): Promise<any> {
     return fetch({
       method: "get",
+      data,
       url: "/demands/list"
     });
   }

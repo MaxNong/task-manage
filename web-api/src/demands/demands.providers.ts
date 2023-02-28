@@ -1,10 +1,15 @@
 import { DataSource } from 'typeorm';
-import { Remands } from './demands.entity';
+import { Demands } from './demands.entity';
+import { DocumentsService } from '../documents/documents.service';
 
-export const tasksServiceProviders = [
+export const demandsServiceProviders = [
   {
-    provide: 'PHOTO_REPOSITORY',
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(Remands),
+    provide: 'DemandsRepository',
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(Demands),
     inject: ['DATA_SOURCE'],
+  },
+  {
+    provide: 'DocumentsService',
+    useClass: DocumentsService,
   },
 ];

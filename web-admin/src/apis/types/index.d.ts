@@ -12,3 +12,11 @@ export interface CreateDemandParams {
   relationalApps?: string[];
   remark?: string;
 }
+
+export interface QueryDemandListParams {
+  longMaoId?: string;
+  startDate?: string;
+  endDate?: string;
+  member?: number;
+  demandStatus?: number;
+}

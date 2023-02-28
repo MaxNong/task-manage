@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
-import { tasksServiceProviders } from './demands.providers';
+import { demandsServiceProviders } from './demands.providers';
 import { DemandsService } from './demands.service';
-import { TasksController } from './demands.controller';
+import { DemandsController } from './demands.controller';
+import { DocumentsModule } from '../documents/documents.module';
 
 @Module({
-  imports: [DatabaseModule],
-  providers: [...tasksServiceProviders, DemandsService],
-  controllers: [TasksController],
+  imports: [DatabaseModule, DocumentsModule],
+  providers: [...demandsServiceProviders, DemandsService],
+  controllers: [DemandsController],
 })
-export class TasksModule {}
+export class DemandsModule {}

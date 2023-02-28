@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Remands {
+export class Demands {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,17 +17,18 @@ export class Remands {
   })
   longMaoDemand: string;
 
-  // 需求地址
+  // 需求信息-关联文档表ids
   @Column({
     type: 'simple-array',
+    charset: 'latin1',
   })
-  demandUrls: Array<{ name: string; url: string }>;
+  demandIds: number[];
 
-  // 相关文档
+  // 相关文档-关联文档表ids
   @Column({
     type: 'simple-array',
   })
-  relativeDocuments: Array<{ name: string; url: string }>;
+  relativeDocumentIds: number[];
 
   // 前端开发
   @Column({

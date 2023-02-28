@@ -26,8 +26,23 @@ export const taskStatus = [
   {
     name: "已发布",
     status: 6
+  },
+  {
+    name: "挂起",
+    status: 7
   }
 ];
+
+export const taskStatusColorMapping = {
+  0: "gray",
+  1: "#f50",
+  2: "#f50",
+  3: "#f50",
+  4: "#2db7f5",
+  5: "#87d068",
+  6: "#108ee9",
+  7: "gray"
+};
 
 export const developers = [
   {
@@ -112,5 +127,24 @@ export const apps = [
   {
     label: "fates",
     value: 16
+  }
+];
+
+export const documentsTypes = [
+  {
+    label: "需求文档",
+    value: 1
+  },
+  {
+    label: "前端技术文档",
+    value: 2
+  },
+  {
+    label: "后端技术文档",
+    value: 3
+  },
+  {
+    label: "其他",
+    value: 4
   }
 ];

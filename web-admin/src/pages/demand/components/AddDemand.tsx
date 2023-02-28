@@ -5,7 +5,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 import apis from "apis";
 
-import { apps, developers, taskStatus } from "../constants";
+import { apps, developers, documentsTypes, taskStatus } from "../constants";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -43,11 +43,13 @@ const AddTask = (props: AddTaskProps) => {
 
   return (
     <Drawer
+      maskClosable
       title="新增需求"
       placement="left"
       width="50%"
       open={visible}
       closable={false}
+      onClose={onClose}
       extra={
         <Space>
           <Button onClick={onClose}>关闭</Button>
@@ -71,7 +73,7 @@ const AddTask = (props: AddTaskProps) => {
           <Input placeholder="请输入龙猫需求" />
         </FormItem>
         <FormItem label="需求地址">
-          <Form.List name="demandUrls">
+          <Form.List name="demandDocuments">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
@@ -91,6 +93,16 @@ const AddTask = (props: AddTaskProps) => {
                       style={{ width: "100%" }}
                     >
                       <Input placeholder="请输入需求CF地址..." style={{ width: "100%" }} />
+                    </Form.Item>
+
+                    <Form.Item {...restField} name={[name, "type"]} style={{ width: "100%" }}>
+                      <Select placeholder="请选择文档类型">
+                        {documentsTypes.map((item) => (
+                          <Option key={item.label} value={item.value}>
+                            {item.label}
+                          </Option>
+                        ))}
+                      </Select>
                     </Form.Item>
 
                     <Button
@@ -132,6 +144,15 @@ const AddTask = (props: AddTaskProps) => {
                       style={{ width: "100%" }}
                     >
                       <Input placeholder="请输入文档地址..." style={{ width: "100%" }} />
+                    </Form.Item>
+                    <Form.Item {...restField} name={[name, "type"]} style={{ width: "100%" }}>
+                      <Select placeholder="请选择文档类型">
+                        {documentsTypes.map((item) => (
+                          <Option key={item.label} value={item.value}>
+                            {item.label}
+                          </Option>
+                        ))}
+                      </Select>
                     </Form.Item>
 
                     <Button
@@ -185,7 +206,7 @@ const AddTask = (props: AddTaskProps) => {
             options={apps}
           />
         </FormItem>
-        <FormItem label="备注">
+        <FormItem label="备注" name="remark">
           <Input.TextArea placeholder="请输入备注..." />
         </FormItem>
       </Form>
