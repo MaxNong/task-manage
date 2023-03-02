@@ -77,4 +77,52 @@ export class DemandsController {
 
     return data;
   }
+
+  // 查询需求详情数据
+  @Get('detail')
+  async findDetail(@Query() params) {
+    const { id } = params;
+    const data = await this.remandsService.findDetail(id);
+
+    for (let index = 0; index < data.length; index++) {
+      const demandDocuments = await this.remandsService.queryDocumentByIds(
+        data[index].demandIds,
+      );
+      data[index].demandDocuments = demandDocuments;
+    }
+
+    for (let index = 0; index < data.length; index++) {
+      const relativeDocuments = await this.remandsService.queryDocumentByIds(
+        data[index].relativeDocumentIds,
+      );
+      data[index].relativeDocuments = relativeDocuments;
+    }
+
+    return data;
+  }
+
+  // 更新某个需求
+  @Post('update')
+  async updateDemand(@Body() demands) {
+    demands.demandIds = [];
+    for (let index = 0; index < demands.demandDocuments.length; index++) {
+      const saveItem = await this.remandsService.createDocument(
+        demands.demandDocuments[index],
+      );
+      demands.demandIds.push(saveItem.id);
+    }
+
+    demands.relativeDocumentIds = [];
+    for (let index = 0; index < demands.relativeDocuments.length; index++) {
+      const saveItem = await this.remandsService.createDocument(
+        demands.relativeDocuments[index],
+      );
+      demands.relativeDocumentIds.push(saveItem.id);
+    }
+
+    delete demands.demandDocuments;
+    delete demands.relativeDocuments;
+
+    return await this.remandsService.updateDemand(demands);
+  }
 }

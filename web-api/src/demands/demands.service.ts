@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, Between } from 'typeorm';
 import { Demands } from './demands.entity';
 import { Documents } from '../documents/documents.entity';
 import { DocumentsService } from '../documents/documents.service';
@@ -18,18 +18,20 @@ export class DemandsService {
   async findAll(params: any): Promise<Demands[]> {
     const { member, demandStatus, longMaoId, startDate, endDate } = params;
 
-    return await this.demandsRepository
-      .createQueryBuilder('post')
-      .where('post.longMaoDemand LIKE :param', { param: '%' + longMaoId + '%' })
-      .andWhere('post.status = :status', { status: demandStatus })
-      .andWhere('publishDate BETWEEN :start AND :end', {
-        start: startDate,
-        end: endDate,
-      })
-      // .having('post.developers = :member', { member: member })
-      // .andWhere('post.developers LIKE :member', { member: member })
-      .orderBy('post.id', 'ASC')
-      .getMany();
+    const list = await this.demandsRepository.find({
+      where: {
+        longMaoDemand: longMaoId ? Like(`%${longMaoId}%`) : undefined,
+        status: demandStatus ? demandStatus : undefined,
+        publishDate:
+          startDate && endDate ? Between(startDate, endDate) : undefined,
+        developers: Like(`%${member}%`),
+      },
+      order: {
+        publishDate: 'DESC',
+      },
+    });
+
+    return list;
   }
 
   // 创建需求
@@ -45,5 +47,23 @@ export class DemandsService {
   // 查询文档
   async queryDocumentByIds(ids: number[]): Promise<Documents[]> {
     return await this.documentsService.findByIds(ids);
+  }
+
+  // 创建需求详情
+  async findDetail(id: number): Promise<any> {
+    return await this.demandsRepository.findBy({
+      id: id,
+    });
+  }
+
+  // 更新需求
+  async updateDemand(demand: any): Promise<any> {
+    const { id } = demand;
+    return await this.demandsRepository.update(
+      {
+        id: id,
+      },
+      demand,
+    );
   }
 }

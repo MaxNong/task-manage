@@ -37,6 +37,7 @@ const AddTask = (props: AddTaskProps) => {
     const res = await apis.createDemand(values);
     if (res.code === 0) {
       message.success("新增成功");
+      onClose();
       success?.();
     }
   };
