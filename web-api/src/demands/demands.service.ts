@@ -16,7 +16,15 @@ export class DemandsService {
 
   // 通过条件查询需求列表
   async findAll(params: any): Promise<Demands[]> {
-    const { member, demandStatus, longMaoId, startDate, endDate } = params;
+    const {
+      member,
+      demandStatus,
+      longMaoId,
+      startDate,
+      endDate,
+      pageSize,
+      page,
+    } = params;
 
     const list = await this.demandsRepository.find({
       where: {
@@ -29,6 +37,8 @@ export class DemandsService {
       order: {
         publishDate: 'DESC',
       },
+      skip: pageSize * (page - 1),
+      take: pageSize,
     });
 
     return list;

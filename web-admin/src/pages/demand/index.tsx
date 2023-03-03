@@ -155,6 +155,11 @@ function DemandList() {
     const values = await formInstance.getFieldsValue(true);
     values.startDate = values.rangeDate ? values.rangeDate[0].format("YYYY-MM") : "";
     values.endDate = values.rangeDate ? values.rangeDate[1].format("YYYY-MM") : "";
+
+    Object.assign(values, {
+      pageSize: 999,
+      page: 1
+    });
     const res = await apis.queryDemandList(values);
     if (res.code === 0) {
       const list = res?.data || [];

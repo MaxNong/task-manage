@@ -22,7 +22,7 @@ let DemandsService = class DemandsService {
         this.documentsService = documentsService;
     }
     async findAll(params) {
-        const { member, demandStatus, longMaoId, startDate, endDate } = params;
+        const { member, demandStatus, longMaoId, startDate, endDate, pageSize, page, } = params;
         const list = await this.demandsRepository.find({
             where: {
                 longMaoDemand: longMaoId ? (0, typeorm_1.Like)(`%${longMaoId}%`) : undefined,
@@ -33,6 +33,8 @@ let DemandsService = class DemandsService {
             order: {
                 publishDate: 'DESC',
             },
+            skip: pageSize * (page - 1),
+            take: pageSize,
         });
         return list;
     }
