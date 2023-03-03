@@ -105,7 +105,8 @@ const EditTask = (props: EditTaskProps) => {
             : "",
           testDate: detailData.testDate ? dayjs(detailData.testDate, "YYYY-MM-DD") : "",
           publishDate: detailData.publishDate ? dayjs(detailData.publishDate, "YYYY-MM-DD") : "",
-          relationalApps: detailData.relationalApps || []
+          relationalApps: detailData.relationalApps || [],
+          remark: detailData.remark || ""
         }}
       >
         <FormItem label="需求状态" name="status">
