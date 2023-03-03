@@ -1,13 +1,24 @@
 .search-form {
     padding: 32px 16px 0;
+    box-sizing: border-box;
 }
 
 .search-table {
     padding: 16px;
+    box-sizing: border-box;
 }
 
 .page-container {
     background: #FFF;
     min-height: 100vh;
     min-width: 100vw;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
 }

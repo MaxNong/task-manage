@@ -41,7 +41,7 @@ function DemandList() {
       title: "龙猫需求",
       dataIndex: "longMaoDemand",
       key: "longMaoDemand",
-      width: 100
+      width: 300
     },
     {
       title: "需求地址",
@@ -232,7 +232,12 @@ function DemandList() {
         </Form>
       </div>
       <div className="search-table">
-        <Table rowKey="id" dataSource={listData} columns={columns} />
+        <Table
+          rowKey="id"
+          dataSource={listData}
+          columns={columns}
+          scroll={{ y: "calc(100vh - 300px)" }}
+        />
       </div>
 
       {addDrawerVisible && (
