@@ -62,8 +62,12 @@ export const developers = [
     value: 4
   },
   {
-    label: "其他（见备注）",
+    label: "鲍强",
     value: 5
+  },
+  {
+    label: "其他（见备注）",
+    value: 6
   }
 ];
 
