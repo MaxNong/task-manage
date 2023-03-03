@@ -17,27 +17,33 @@ type AddTaskProps = {
 };
 const AddTask = (props: AddTaskProps) => {
   const { visible, setVisible, success } = props;
-  const [formInstance] = Form.useForm();
 
-  const onClose = () => {
-    setVisible(false);
-  };
+  const [formInstance] = Form.useForm();
 
   const submitForm = async () => {
     const values = await formInstance.getFieldsValue(true);
 
-    values.preReviewDate =
-      values.preReviewDate && moment(values.preReviewDate).format("YYYY-MM-DD");
-    values.reviewDate = values.reviewDate && moment(values.reviewDate).format("YYYY-MM-DD");
-    values.technicalReviewDate =
-      values.technicalReviewDate && moment(values.technicalReviewDate).format("YYYY-MM-DD");
-    values.testDate = values.testDate && moment(values.testDate).format("YYYY-MM-DD");
-    values.publishDate = values.publishDate && moment(values.publishDate).format("YYYY-MM-DD");
+    const {
+      preReviewDate = "",
+      reviewDate = "",
+      technicalReviewDate = "",
+      testDate = "",
+      publishDate = ""
+    } = values;
+    const formatMode = "YYYY-MM-DD";
+    const coverData = {
+      preReviewDate: preReviewDate ? preReviewDate.format(formatMode) : "",
+      reviewDate: reviewDate ? reviewDate.format(formatMode) : "",
+      technicalReviewDate: technicalReviewDate ? technicalReviewDate.format(formatMode) : "",
+      testDate: testDate ? testDate.format(formatMode) : "",
+      publishDate: publishDate ? publishDate.format(formatMode) : ""
+    };
 
-    const res = await apis.createDemand(values);
+    const res = await apis.createDemand({ ...values, ...coverData });
+
     if (res.code === 0) {
       message.success("新增成功");
-      onClose();
+      setVisible(false);
       success?.();
     }
   };
@@ -50,10 +56,10 @@ const AddTask = (props: AddTaskProps) => {
       width="50%"
       open={visible}
       closable={false}
-      onClose={onClose}
+      onClose={() => setVisible(false)}
       extra={
         <Space>
-          <Button onClick={onClose}>关闭</Button>
+          <Button onClick={() => setVisible(false)}>关闭</Button>
           <Button type="primary" onClick={submitForm}>
             保存
           </Button>

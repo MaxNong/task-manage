@@ -60,6 +60,10 @@ export const developers = [
   {
     label: "施欢迎",
     value: 4
+  },
+  {
+    label: "其他（见备注）",
+    value: 5
   }
 ];
 
@@ -127,6 +131,10 @@ export const apps = [
   {
     label: "fates",
     value: 16
+  },
+  {
+    label: "其他",
+    value: 17
   }
 ];
 

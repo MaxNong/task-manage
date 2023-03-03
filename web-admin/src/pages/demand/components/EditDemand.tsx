@@ -1,5 +1,4 @@
-import React from "react";
-import moment from "moment";
+import React, { useCallback, useState } from "react";
 import { useMount } from "ahooks";
 import { Button, DatePicker, Drawer, Form, Input, message, Select, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -20,69 +19,95 @@ type EditTaskProps = {
 };
 const EditTask = (props: EditTaskProps) => {
   const { visible, setVisible, success, id } = props;
+
   const [formInstance] = Form.useForm();
+  const [detailData, setDetailData] = useState<any>(null);
 
-  const onClose = () => {
-    setVisible(false);
-  };
-
+  // 提交操作
   const submitForm = async () => {
     const values = await formInstance.getFieldsValue(true);
+    const {
+      preReviewDate = "",
+      reviewDate = "",
+      technicalReviewDate = "",
+      testDate = "",
+      publishDate = ""
+    } = values;
+    const formatMode = "YYYY-MM-DD";
+    const coverData = {
+      preReviewDate: preReviewDate ? preReviewDate.format(formatMode) : "",
+      reviewDate: reviewDate ? reviewDate.format(formatMode) : "",
+      technicalReviewDate: technicalReviewDate ? technicalReviewDate.format(formatMode) : "",
+      testDate: testDate ? testDate.format(formatMode) : "",
+      publishDate: publishDate ? publishDate.format(formatMode) : ""
+    };
 
-    values.preReviewDate =
-      values.preReviewDate && moment(values.preReviewDate).format("YYYY-MM-DD");
-    values.reviewDate = values.reviewDate && moment(values.reviewDate).format("YYYY-MM-DD");
-    values.technicalReviewDate =
-      values.technicalReviewDate && moment(values.technicalReviewDate).format("YYYY-MM-DD");
-    values.testDate = values.testDate && moment(values.testDate).format("YYYY-MM-DD");
-    values.publishDate = values.publishDate && moment(values.publishDate).format("YYYY-MM-DD");
-
-    const res = await apis.updateDemand(Object.assign(values, { id }));
+    const res = await apis.updateDemand(Object.assign(values, coverData, { id }));
     if (res.code === 0) {
       message.success("编辑成功");
-      onClose();
+      setVisible(false);
       success?.();
     }
   };
 
-  useMount(async () => {
+  // 获取详情数据
+  const getDetailData = useCallback(async () => {
     if (!id) return;
+
     const res = await apis.queryDemandDetail({ id });
     const data = res?.data?.[0];
 
     data.developers = data.developers.map((item: any) => Number(item));
     data.relationalApps = data.relationalApps.map((item: any) => Number(item));
 
-    data.preReviewDate = data.preReviewDate ? dayjs(data.preReviewDate, "YYYY-MM-DD") : "";
-    data.reviewDate = data.reviewDate ? dayjs(data.reviewDate, "YYYY-MM-DD") : "";
-    data.technicalReviewDate = data.technicalReviewDate
-      ? dayjs(data.technicalReviewDate, "YYYY-MM-DD")
-      : "";
-    data.testDate = data.testDate ? dayjs(data.testDate, "YYYY-MM-DD") : "";
-    data.publishDate = data.publishDate ? dayjs(data.publishDate, "YYYY-MM-DD") : "";
+    setDetailData(data);
+  }, [id]);
 
-    formInstance.setFieldsValue(data);
+  useMount(async () => {
+    getDetailData();
   });
+
+  if (!detailData) return null;
 
   return (
     <Drawer
       maskClosable
-      title="新增需求"
+      title="编辑需求"
       placement="left"
       width="50%"
       open={visible}
       closable={false}
-      onClose={onClose}
+      onClose={() => setVisible(false)}
       extra={
         <Space>
-          <Button onClick={onClose}>关闭</Button>
+          <Button onClick={() => setVisible(false)}>关闭</Button>
           <Button type="primary" onClick={submitForm}>
             保存
           </Button>
         </Space>
       }
     >
-      <Form layout="vertical" form={formInstance}>
+      <Form
+        layout="vertical"
+        form={formInstance}
+        initialValues={{
+          status: detailData.status,
+          longMaoDemand: detailData.longMaoDemand || "",
+          demandDocuments: detailData.demandDocuments || [],
+          relativeDocuments: detailData.relativeDocuments || [],
+          developers: detailData.developers || [],
+          preReviewDate: detailData.preReviewDate
+            ? dayjs(detailData.preReviewDate, "YYYY-MM-DD")
+            : "",
+          reviewDate: detailData.reviewDate ? dayjs(detailData.reviewDate, "YYYY-MM-DD") : "",
+          technicalReviewDate: detailData.technicalReviewDate
+            ? dayjs(detailData.technicalReviewDate, "YYYY-MM-DD")
+            : "",
+          testDate: detailData.testDate ? dayjs(detailData.testDate, "YYYY-MM-DD") : "",
+          publishDate: detailData.publishDate ? dayjs(detailData.publishDate, "YYYY-MM-DD") : "",
+          relationalApps: detailData.relationalApps || []
+        }}
+      >
         <FormItem label="需求状态" name="status">
           <Select placeholder="请选择需求状态">
             {taskStatus.map((item) => (
@@ -145,7 +170,6 @@ const EditTask = (props: EditTaskProps) => {
             )}
           </Form.List>
         </FormItem>
-
         <FormItem label="相关文档">
           <Form.List name="relativeDocuments">
             {(fields, { add, remove }) => (
@@ -195,7 +219,6 @@ const EditTask = (props: EditTaskProps) => {
             )}
           </Form.List>
         </FormItem>
-
         <FormItem name="developers" label="前端开发">
           <Select
             mode="multiple"

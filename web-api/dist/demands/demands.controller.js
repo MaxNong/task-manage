@@ -71,18 +71,29 @@ let DemandsController = class DemandsController {
         return data;
     }
     async updateDemand(demands) {
+        const { status, longMaoDemand = '', demandDocuments = [], relativeDocuments = [], developers = [], preReviewDate = '', reviewDate = '', technicalReviewDate = '', testDate = '', publishDate = '', relationalApps = [], remark = '', } = demands;
         demands.demandIds = [];
-        for (let index = 0; index < demands.demandDocuments.length; index++) {
-            const saveItem = await this.remandsService.createDocument(demands.demandDocuments[index]);
+        for (let index = 0; index < demandDocuments.length; index++) {
+            const saveItem = await this.remandsService.createDocument(demandDocuments[index]);
             demands.demandIds.push(saveItem.id);
         }
         demands.relativeDocumentIds = [];
-        for (let index = 0; index < demands.relativeDocuments.length; index++) {
-            const saveItem = await this.remandsService.createDocument(demands.relativeDocuments[index]);
+        for (let index = 0; index < relativeDocuments.length; index++) {
+            const saveItem = await this.remandsService.createDocument(relativeDocuments[index]);
             demands.relativeDocumentIds.push(saveItem.id);
         }
         delete demands.demandDocuments;
         delete demands.relativeDocuments;
+        demands.status = status;
+        demands.longMaoDemand = longMaoDemand;
+        demands.developers = developers;
+        demands.preReviewDate = preReviewDate;
+        demands.reviewDate = reviewDate;
+        demands.technicalReviewDate = technicalReviewDate;
+        demands.testDate = testDate;
+        demands.publishDate = publishDate;
+        demands.relationalApps = relationalApps;
+        demands.remark = remark;
         return await this.remandsService.updateDemand(demands);
     }
 };
