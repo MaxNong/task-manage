@@ -235,11 +235,13 @@ function DemandList() {
         <Table rowKey="id" dataSource={listData} columns={columns} />
       </div>
 
-      <AddDemand
-        visible={addDrawerVisible}
-        setVisible={setAddDrawerVisible}
-        success={addDemandSuccess}
-      />
+      {addDrawerVisible && (
+        <AddDemand
+          visible={addDrawerVisible}
+          setVisible={setAddDrawerVisible}
+          success={addDemandSuccess}
+        />
+      )}
 
       {editDemandVisible && (
         <EditDemand
