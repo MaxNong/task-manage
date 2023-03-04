@@ -23,12 +23,13 @@ function DemandList() {
   const [editDemandVisible, setEditDemandVisible] = useState<boolean>(false);
   const [editId, setEditId] = useState<number | undefined>(undefined);
 
-  const columns = [
+  const columns: any = [
     {
       title: "需求状态",
       dataIndex: "status",
       key: "status",
       width: 100,
+      fixed: "left",
       render: (scope: keyof typeof taskStatusColorMapping) => {
         return (
           <Tag color={taskStatusColorMapping[scope]}>
@@ -41,12 +42,14 @@ function DemandList() {
       title: "龙猫需求",
       dataIndex: "longMaoDemand",
       key: "longMaoDemand",
-      width: 300
+      width: 300,
+      fixed: "left"
     },
     {
       title: "需求地址",
       dataIndex: "demandDocuments",
       key: "demandDocuments",
+      width: 150,
       render: (scope: ListItem["demandDocuments"]) => {
         return scope?.map((item) => (
           <a
@@ -65,6 +68,7 @@ function DemandList() {
       title: "相关文档",
       dataIndex: "relativeDocuments",
       key: "relativeDocuments",
+      width: 150,
       render: (scope: ListItem["relativeDocuments"]) => {
         return scope?.map((item) => (
           <a
@@ -83,6 +87,7 @@ function DemandList() {
       title: "前端开发",
       dataIndex: "developers",
       key: "developers",
+      width: 100,
       render: (scope: ListItem["developers"]) => {
         return scope?.map((currentValue) => (
           <div key={currentValue}>
@@ -94,32 +99,38 @@ function DemandList() {
     {
       title: "预审日期",
       dataIndex: "preReviewDate",
-      key: "preReviewDate"
+      key: "preReviewDate",
+      width: 120
     },
     {
       title: "评审日期",
       dataIndex: "reviewDate",
-      key: "reviewDate"
+      key: "reviewDate",
+      width: 120
     },
     {
       title: "技评日期",
       dataIndex: "technicalReviewDate",
-      key: "technicalReviewDate"
+      key: "technicalReviewDate",
+      width: 120
     },
     {
       title: "提测日期",
       dataIndex: "testDate",
-      key: "testDate"
+      key: "testDate",
+      width: 120
     },
     {
       title: "发布日期",
       dataIndex: "publishDate",
-      key: "publishDate"
+      key: "publishDate",
+      width: 120
     },
     {
       title: "涉及应用",
       dataIndex: "relationalApps",
       key: "relationalApps",
+      width: 130,
       render: (scope: ListItem["relationalApps"]) => {
         return scope?.map((currentValue) => (
           <div key={currentValue}>{apps.find((item) => currentValue == item.value)?.label}</div>
@@ -129,10 +140,13 @@ function DemandList() {
     {
       title: "备注",
       dataIndex: "remark",
-      key: "remark"
+      key: "remark",
+      width: 200
     },
     {
       title: "操作",
+      fixed: "right",
+      width: 100,
       render: (scope: any, row: any) => {
         return (
           <Space>
@@ -233,6 +247,7 @@ function DemandList() {
       </div>
       <div className="search-table">
         <Table
+          bordered
           rowKey="id"
           dataSource={listData}
           columns={columns}
