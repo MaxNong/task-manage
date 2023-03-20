@@ -30,6 +30,10 @@ export const taskStatus = [
   {
     name: "挂起",
     status: 7
+  },
+  {
+    name: "非已发布状态",
+    status: 8
   }
 ];
 

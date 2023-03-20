@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository, Like, Between } from 'typeorm';
+import { Repository, Like, Between, Not } from 'typeorm';
 import { Demands } from './demands.entity';
 import { Documents } from '../documents/documents.entity';
 import { DocumentsService } from '../documents/documents.service';
@@ -29,7 +29,11 @@ export class DemandsService {
     const list = await this.demandsRepository.find({
       where: {
         longMaoDemand: longMaoId ? Like(`%${longMaoId}%`) : undefined,
-        status: demandStatus ? demandStatus : undefined,
+        status: demandStatus
+          ? demandStatus == 8
+            ? Not(6)
+            : demandStatus
+          : undefined,
         publishDate:
           startDate && endDate ? Between(startDate, endDate) : undefined,
         developers: Like(`%${member}%`),

@@ -9,9 +9,7 @@ type FetchParams = {
 const instance = axios.create();
 
 const baseURL =
-  process.env.NODE_ENV == "production"
-    ? "http://139.224.221.14:3001/"
-    : "http://139.224.221.14:3001/";
+  process.env.NODE_ENV == "production" ? "http://139.224.221.14:3001/" : "http://localhost:3001/";
 
 instance.interceptors.request.use((config) => {
   return config;

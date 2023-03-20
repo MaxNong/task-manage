@@ -26,7 +26,11 @@ let DemandsService = class DemandsService {
         const list = await this.demandsRepository.find({
             where: {
                 longMaoDemand: longMaoId ? (0, typeorm_1.Like)(`%${longMaoId}%`) : undefined,
-                status: demandStatus ? demandStatus : undefined,
+                status: demandStatus
+                    ? demandStatus == 8
+                        ? (0, typeorm_1.Not)(6)
+                        : demandStatus
+                    : undefined,
                 publishDate: startDate && endDate ? (0, typeorm_1.Between)(startDate, endDate) : undefined,
                 developers: (0, typeorm_1.Like)(`%${member}%`),
             },
