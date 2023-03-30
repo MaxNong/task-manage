@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository, Like, Between, Not } from 'typeorm';
+import { Repository, Like, Between, Not, In } from 'typeorm';
 import { Demands } from './demands.entity';
 import { Documents } from '../documents/documents.entity';
 import { DocumentsService } from '../documents/documents.service';
@@ -31,7 +31,7 @@ export class DemandsService {
         longMaoDemand: longMaoId ? Like(`%${longMaoId}%`) : undefined,
         status: demandStatus
           ? demandStatus == 8
-            ? Not(6)
+            ? Not(In([6, 0]))
             : demandStatus
           : undefined,
         publishDate:

@@ -1,5 +1,9 @@
 export const taskStatus = [
   {
+    name: "未完结的需求（非发布，非无开发内容）",
+    status: 8
+  },
+  {
     name: "无开发内容",
     status: 0
   },
@@ -30,10 +34,6 @@ export const taskStatus = [
   {
     name: "挂起",
     status: 7
-  },
-  {
-    name: "非已发布状态",
-    status: 8
   }
 ];
 
@@ -68,6 +68,14 @@ export const developers = [
   {
     label: "鲍强",
     value: 5
+  },
+  {
+    label: "李敬仑",
+    value: 7
+  },
+  {
+    label: "吴小闯",
+    value: 8
   },
   {
     label: "其他（见备注）",
