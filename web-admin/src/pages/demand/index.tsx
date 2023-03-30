@@ -96,12 +96,12 @@ function DemandList() {
         ));
       }
     },
-    {
-      title: "预审日期",
-      dataIndex: "preReviewDate",
-      key: "preReviewDate",
-      width: 120
-    },
+    // {
+    //   title: "预审日期",
+    //   dataIndex: "preReviewDate",
+    //   key: "preReviewDate",
+    //   width: 120
+    // },
     {
       title: "评审日期",
       dataIndex: "reviewDate",
