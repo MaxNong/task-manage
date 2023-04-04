@@ -31,7 +31,7 @@ export class DemandsService {
         longMaoDemand: longMaoId ? Like(`%${longMaoId}%`) : undefined,
         status: demandStatus
           ? demandStatus == 8
-            ? Not(In([6, 0]))
+            ? Not(In([6, 0, 7]))
             : demandStatus
           : undefined,
         publishDate:

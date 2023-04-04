@@ -1,6 +1,6 @@
 export const taskStatus = [
   {
-    name: "未完结的需求（非发布，非无开发内容）",
+    name: "未完结的需求（非发布，非无开发内容，非挂起）",
     status: 8
   },
   {
